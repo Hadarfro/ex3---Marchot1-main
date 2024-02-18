@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "StrList.h"
 #include <stdlib.h>
-#include <string.h>
 
 // Node & List Data Structures
 typedef struct _node {
@@ -50,8 +49,8 @@ void StrList_insertAt(StrList* StrList, const char* data,int index){
 
 }
 
-char* StrList_firstData(const StrList* StrList){
-    return StrList->_head->_data;
+char* StrList_firstData(const StrList* list){
+    return *list->_head->_data;
 
 }
 
@@ -63,11 +62,6 @@ void StrList_print(const StrList* StrList){
 	}
 	printf("|| size:%zu\n",StrList->_size);
 }
-<<<<<<< HEAD
-//edit
-void StrList_printAt(const StrList* Strlist,int index){
-
-=======
 
 void StrList_printAt(const StrList* Strlist,int index){// hadar
 	Node* p = Strlist->_head;
@@ -76,7 +70,6 @@ void StrList_printAt(const StrList* Strlist,int index){// hadar
 		p->_next;
 	}
 	printf("(%.2f)->",p->_data);
->>>>>>> 40a52b9efaa32a5247eb97edbdba0d7daf12ad7b
 }
 
 int StrList_printLen(const StrList* Strlist){//hadar
@@ -107,20 +100,21 @@ while (p!=NULL)
 return count;
 }
 
-void StrList_remove(StrList* StrList, const char* data){//hadar
-Node* p = StrList->_head;
+void StrList_remove(StrList* list, const char* data){//hadar
+Node* p = list->_head->_next;
 Node* prev = NULL;
-char *str = StrList->_head->_data;
+char *str = list->_head->_data;
+StrList* tmplist = list;
 while (p!=NULL)
 	{
 	if(strcmp(*str,data) == 0){
-		if (prev == NULL) {
+		if (list == NULL) {
                 // If the match is in the first node
-                StrList = p->_next;
+                list->_head = p->_next;
         	}
 		else {
              // If the match is in a subsequent node
-            prev->_next = p->_next;
+            list->_head = p->_next;
             }
 
             // Free the memory allocated for the string
@@ -128,12 +122,37 @@ while (p!=NULL)
             free(p);
 	}
 	p->_next;
+	list->_head = list->_head->_next;
 	*str = p->_data;
 	}
+	list->_head = tmplist;
 }
 
-void StrList_removeAt(StrList* StrList, int index){//hadar
+void StrList_removeAt(StrList* list, int index){//hadar
+Node* p = list->_head->_next;
+Node* prev = NULL;
+char *str = list->_head->_data;
+StrList* tmplist = list;
+for (int i = 0;i<=index;i++){
+	if(i==index){
+		if (list == NULL) {
+                // If the match is in the first node
+                list->_head = p->_next;
+        	}
+		else {
+             // If the match is in a subsequent node
+            list->_head = p->_next;
+            }
 
+            // Free the memory allocated for the string
+            free(p->_data);
+            free(p);
+	}
+	p->_next;
+	list->_head = list->_head->_next;
+	*str = p->_data;
+	}
+	list->_head = tmplist;
 }
 
 int StrList_isEqual(const StrList* StrList1, const StrList* StrList2){
@@ -165,15 +184,15 @@ StrList* StrList_clone(const StrList* StringList){
 
 }
 
-void StrList_reverse( StrList* StrList){//hadar
+void StrList_reverse( StrList* StrList){
 
 }
 
-void StrList_sort( StrList* StrList){//hadar
+void StrList_sort( StrList* StrList){
 
 }
 
-int StrList_isSorted(StrList* StrList){//hadar
+int StrList_isSorted(StrList* StrList){
 
 }
 
