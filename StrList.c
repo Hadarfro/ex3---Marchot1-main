@@ -62,7 +62,7 @@ void StrList_print(const StrList* StrList){
 	}
 	printf("|| size:%zu\n",StrList->_size);
 }
-
+//edit
 void StrList_printAt(const StrList* Strlist,int index){
 
 }
