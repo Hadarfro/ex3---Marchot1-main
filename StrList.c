@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include "StrList.h"
 #include <stdlib.h>
+#include <string.h>
 
 // Node & List Data Structures
 typedef struct _node {
-    double _data;
+    char _data;
     struct _node * _next;
 } Node;
 
@@ -50,7 +51,7 @@ void StrList_insertAt(StrList* StrList, const char* data,int index){
 }
 
 char* StrList_firstData(const StrList* StrList){
-    return *StrList->_head->_data;
+    return StrList->_head->_data;
 
 }
 
@@ -62,24 +63,76 @@ void StrList_print(const StrList* StrList){
 	}
 	printf("|| size:%zu\n",StrList->_size);
 }
+<<<<<<< HEAD
 //edit
 void StrList_printAt(const StrList* Strlist,int index){
 
+=======
+
+void StrList_printAt(const StrList* Strlist,int index){// hadar
+	Node* p = Strlist->_head;
+	for (int i = 0; i <= index; i++)
+	{
+		p->_next;
+	}
+	printf("(%.2f)->",p->_data);
+>>>>>>> 40a52b9efaa32a5247eb97edbdba0d7daf12ad7b
 }
 
-int StrList_printLen(const StrList* Strlist){
-
+int StrList_printLen(const StrList* Strlist){//hadar
+Node* p = Strlist->_head;
+char *str = Strlist->_head->_data;
+int count = 0;
+while (p!=NULL)
+	{
+		count += strlen(*str);
+		p->_next;
+		*str = p->_data;
+	}
+ return count;
 }
 
-int StrList_count(StrList* StrList, const char* data){
-
+int StrList_count(StrList* StrList, const char* data){//hadar
+int count = 0;
+Node* p = StrList->_head;
+char *str = StrList->_head->_data;
+while (p!=NULL)
+	{
+	if(strcmp(*str,data) == 0){
+		count++;
+	}
+	p->_next;
+	*str = p->_data;
+	}
+return count;
 }
 
-void StrList_remove(StrList* StrList, const char* data){
+void StrList_remove(StrList* StrList, const char* data){//hadar
+Node* p = StrList->_head;
+Node* prev = NULL;
+char *str = StrList->_head->_data;
+while (p!=NULL)
+	{
+	if(strcmp(*str,data) == 0){
+		if (prev == NULL) {
+                // If the match is in the first node
+                StrList = p->_next;
+        	}
+		else {
+             // If the match is in a subsequent node
+            prev->_next = p->_next;
+            }
 
+            // Free the memory allocated for the string
+            free(p->_data);
+            free(p);
+	}
+	p->_next;
+	*str = p->_data;
+	}
 }
 
-void StrList_removeAt(StrList* StrList, int index){
+void StrList_removeAt(StrList* StrList, int index){//hadar
 
 }
 
@@ -112,15 +165,15 @@ StrList* StrList_clone(const StrList* StringList){
 
 }
 
-void StrList_reverse( StrList* StrList){
+void StrList_reverse( StrList* StrList){//hadar
 
 }
 
-void StrList_sort( StrList* StrList){
+void StrList_sort( StrList* StrList){//hadar
 
 }
 
-int StrList_isSorted(StrList* StrList){
+int StrList_isSorted(StrList* StrList){//hadar
 
 }
 
