@@ -21,6 +21,13 @@ StrList* StrList_alloc(){
 	return p;
 }
 
+Node* Node_alloc(const char* data,Node* next){
+    Node* p = (Node*)malloc(sizeof(Node));
+	p->_data = data;
+	p->_next = next;
+	return p;
+}
+
 void StrList_free(StrList* StrList){
     if (StrList == NULL){
         return;
