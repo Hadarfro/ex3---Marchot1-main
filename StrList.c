@@ -163,7 +163,7 @@ int StrList_isEqual(const StrList* StrList1, const StrList* StrList2){
 	return eq;
 }
 
-StrList* StrList_clone(const StrList* StringList){
+StrList* StrList_clone(const StrList* StringList){//need to free
     StrList*  ret = StrList_alloc();
 	const Node* old= StringList->_head;
 	Node* * copy = &(ret->_head);

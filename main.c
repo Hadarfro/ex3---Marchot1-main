@@ -70,13 +70,13 @@ StrList* StrList;
 
 
         case 10:
-        //StrList_isEqual(StrList1,StrList2);
+        StrList_reverse(StrList);
             return 0;     
             break;
 
 
         case 11:
-        StrList_reverse(StrList);
+            StrList_clone(StrList);
             return 0;     
             break;
 
