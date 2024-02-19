@@ -50,8 +50,7 @@ void StrList_insertAt(StrList* StrList, const char* data,int index){
 }
 
 char* StrList_firstData(const StrList* list){
-    return *list->_head->_data;
-
+    return list->_head->_data;
 }
 
 void StrList_print(const StrList* StrList){
@@ -101,58 +100,52 @@ return count;
 }
 
 void StrList_remove(StrList* list, const char* data){//hadar
-Node* p = list->_head->_next;
-Node* prev = NULL;
 char *str = list->_head->_data;
-StrList* tmplist = list;
+Node* p = list->_head;
+Node* prev = NULL;
 while (p!=NULL)
 	{
 	if(strcmp(*str,data) == 0){
-		if (list == NULL) {
+		if (prev == NULL) {
                 // If the match is in the first node
                 list->_head = p->_next;
         	}
 		else {
              // If the match is in a subsequent node
-            list->_head = p->_next;
+        		prev->_next = p->_next;
             }
 
             // Free the memory allocated for the string
             free(p->_data);
             free(p);
 	}
+	prev = p;
 	p->_next;
-	list->_head = list->_head->_next;
 	*str = p->_data;
 	}
-	list->_head = tmplist;
 }
 
 void StrList_removeAt(StrList* list, int index){//hadar
-Node* p = list->_head->_next;
+Node* p = list->_head;
 Node* prev = NULL;
-char *str = list->_head->_data;
-StrList* tmplist = list;
 for (int i = 0;i<=index;i++){
 	if(i==index){
-		if (list == NULL) {
+		if (prev == NULL) {
                 // If the match is in the first node
                 list->_head = p->_next;
         	}
 		else {
              // If the match is in a subsequent node
-            list->_head = p->_next;
+            prev->_next = p->_next;
             }
 
             // Free the memory allocated for the string
             free(p->_data);
             free(p);
 	}
+	prev = p;
 	p->_next;
-	list->_head = list->_head->_next;
-	*str = p->_data;
 	}
-	list->_head = tmplist;
 }
 
 int StrList_isEqual(const StrList* StrList1, const StrList* StrList2){
@@ -184,8 +177,23 @@ StrList* StrList_clone(const StrList* StringList){
 
 }
 
-void StrList_reverse( StrList* StrList){
-
+void StrList_reverse( StrList* list){
+Node* p = list->_head;
+Node* prev = NULL;
+Node* nextNode = NULL;
+while (p != NULL) {
+        // Save the next node
+        nextNode = p->_next;
+        
+        // Reverse the link
+        p->_next = prev;
+        
+        // Move to the next nodes
+        prev = p;
+        p = nextNode;
+    }
+    // Update the head of the list
+    list->_head = prev;
 }
 
 void StrList_sort( StrList* StrList){
