@@ -14,15 +14,11 @@ int main(){
         switch (input)
         {
         case 1:
-        printf("enter a letter");
-        char a = getchar();
-        if(a == 'A'){
             scanf(" %d", &input);
             for(int i=0;i<input;i++){
                 scanf(" %s", str);
-            StrList_insertLast(StrList, str);
-            }
-        } 
+                StrList_insertLast(StrList, str);
+            } 
             break;
 
         case 2:
@@ -81,7 +77,7 @@ int main(){
 
 
         case 11:
-            StrList_clone(StrList);
+            StrList_free(StrList);
             return 0;     
             break;
 
@@ -98,6 +94,7 @@ int main(){
             break;
 
         case 0:
+        StrList_free(StrList);
             return 0;
             break;
             
