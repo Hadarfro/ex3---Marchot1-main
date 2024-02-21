@@ -49,30 +49,46 @@ size_t StrList_size(const StrList* StrList){
 }
 
 void StrList_insertLast(StrList* StrList, const char* data){
-	Node* start = StrList->_head;
-		while(start != NULL){
-			start = start->_next;
-		}
-		start->_data = data;
+	printf("start the insert");
+	Node* newNode = (Node*)malloc(sizeof(Node));
+	newNode->_data = NULL;
+	strcpy(newNode->_data, data);
+	newNode->_next = NULL;
+	if(StrList->_head == NULL){
+		StrList->_head = newNode;
+	}
+	Node* p = StrList->_head;
+	while(p->_next != NULL){
+		p = p->_next;
+	}
+	p->_next = newNode;
+	++(StrList->_size);
 }
 
+
 void StrList_insertAt(StrList* StrList, const char* data,int index){
-	Node* start = StrList->_head;
-	for(int i=0; i<index && start!=NULL; i++){
-		start = start->_next;
+	Node* newNode = (Node*)malloc(sizeof(Node));
+	newNode->_data = NULL;
+	strcpy(newNode->_data, data);
+	newNode->_next = NULL;
+	Node* p = StrList->_head;
+
+	for(int i=0; i<index && p!=NULL; i++){
+		p = p->_next;
 	}
-	start->_data = data;
+	p->_next = newNode;
+	++(StrList->_size);
 }
 
 char* StrList_firstData(const StrList* list){
-	char* ans = list->_head->_data;
+	char* ans = (char*)list->_head->_data;
     return ans;
 }
 
 void StrList_print(const StrList* StrList){
-    const Node* p= StrList->_head;
-	while(p) {
-		printf("(%s)->",p->_data);
+    const Node* p = StrList->_head;
+	while(p!=NULL) {
+		printf(" %.2s",p->_data);
 		p= p->_next;
 	}
 	printf("|| size:%zu\n",StrList->_size);
@@ -94,7 +110,7 @@ int StrList_printLen(const StrList* Strlist){//hadar
 	while (p!=NULL)
 		{
 			count += strlen(str);
-			p = p->_next;//edit
+			p = p->_next;
 			str = p->_data;
 		}
 	return count;
@@ -121,7 +137,7 @@ void StrList_remove(StrList* list, const char* data){//hadar
 	Node* prev = NULL;
 	while (p!=NULL)
 		{
-		if(strcmp(str,data) == 0){//edit
+		if(strcmp(str,data) == 0){
 			if (prev == NULL) {
 					// If the match is in the first node
 					list->_head = p->_next;
@@ -144,7 +160,7 @@ void StrList_remove(StrList* list, const char* data){//hadar
 void StrList_removeAt(StrList* list, int index){//hadar
 	Node* p = list->_head;
 	Node* prev = NULL;
-	for (int i = 0;i<=index;i++){
+	for (int i = 0; i<=index; i++){
 		if(i==index){
 			if (prev == NULL) {
 					// If the match is in the first node
@@ -165,31 +181,41 @@ void StrList_removeAt(StrList* list, int index){//hadar
 }
 
 int StrList_isEqual(const StrList* StrList1, const StrList* StrList2){
-    const int eq = 0;
-	const int neq = 1;
+    const int eq= 0;
+	const int neq= 1;
 	
 	const Node* p1= StrList1->_head;
 	const Node* p2= StrList2->_head;
-	while(p1) {
+	while(p1!=NULL) {
 		if (p2==NULL||p1->_data!=p2->_data) return neq;
-		p1 = p1->_next;
-		p2 = p2->_next;
+		p1= p1->_next;
+		p2= p2->_next;
 	}
-	if (p2 != NULL) return neq;
+	if (p2!=NULL) return neq;
 	return eq;
 }
 
 StrList* StrList_clone(const StrList* StringList){
     StrList*  ret = StrList_alloc();
-	const Node* old= StringList->_head;
-	Node*                  copy = ret->_head;
+	StrList* cloneH = (StrList*)malloc(sizeof(StrList));
 	ret->_size= StringList->_size;
-	while(old) {
-		copy = Node_alloc(old->_data,NULL);//hadar edit
-		old = old->_next;//edit
-		copy = copy->_next;//edit
+	strcpy(cloneH->_head->_data,StringList->_head->_data);
+	cloneH->_head->_next = NULL;
+	Node* copyP = cloneH->_head;
+	Node* origP = NULL;
+	if (StringList->_head==NULL)
+	{
+		return NULL;
 	}
-	return ret;
+	
+	while(origP!=NULL) {
+		Node* newNode = (Node*)malloc(sizeof(Node));
+		strcpy(newNode->_data, origP->_data);
+		newNode->_next = NULL;
+		copyP->_next = newNode;
+		origP = origP->_next;
+	}
+	return cloneH;
 
 }
 
