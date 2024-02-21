@@ -24,6 +24,13 @@ StrList* StrList_alloc(){
 	return p;
 }
 
+Node* Node_alloc(char* data,Node* next){
+	Node* n = (Node*)malloc(sizeof(Node));
+	n->_data = data;
+	n->_next = next;
+	return n;
+}
+
 void Node_free(Node* node) {
 	free(node);
 }
@@ -49,13 +56,11 @@ size_t StrList_size(const StrList* StrList){
 }
 
 void StrList_insertLast(StrList* StrList, const char* data){
-	printf("start the insert");
-	Node* newNode = (Node*)malloc(sizeof(Node));
-	newNode->_data = NULL;
-	strcpy(newNode->_data, data);
-	newNode->_next = NULL;
+	char* str = (char*)data;
+	Node* newNode = Node_alloc(str,NULL);
 	if(StrList->_head == NULL){
 		StrList->_head = newNode;
+		return;
 	}
 	Node* p = StrList->_head;
 	while(p->_next != NULL){
@@ -67,15 +72,13 @@ void StrList_insertLast(StrList* StrList, const char* data){
 
 
 void StrList_insertAt(StrList* StrList, const char* data,int index){
-	Node* newNode = (Node*)malloc(sizeof(Node));
-	newNode->_data = NULL;
-	strcpy(newNode->_data, data);
-	newNode->_next = NULL;
-	Node* p = StrList->_head;
-
-	for(int i=0; i<index && p!=NULL; i++){
+	char* str = (char*)data;
+	Node* newNode = Node_alloc(str,NULL);
+	Node* p = StrList->_head->_next;
+	while(p->_next!=NULL){
 		p = p->_next;
 	}
+	newNode->_next = p->_next->_next;
 	p->_next = newNode;
 	++(StrList->_size);
 }
@@ -86,12 +89,13 @@ char* StrList_firstData(const StrList* list){
 }
 
 void StrList_print(const StrList* StrList){
-    const Node* p = StrList->_head;
+    Node* p = StrList->_head;
+	printf("the first data is %s\n",p->_data);
 	while(p!=NULL) {
-		printf(" %.2s",p->_data);
-		p= p->_next;
+		printf(" %s",p->_data);
+		p = p->_next;
 	}
-	printf("|| size:%zu\n",StrList->_size);
+	printf("\n");
 }
 
 void StrList_printAt(const StrList* Strlist,int index){// hadar
@@ -113,6 +117,7 @@ int StrList_printLen(const StrList* Strlist){//hadar
 			p = p->_next;
 			str = p->_data;
 		}
+		printf("%d",count);
 	return count;
 }
 
