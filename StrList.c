@@ -67,7 +67,6 @@ void StrList_insertLast(StrList* StrList, const char* data){
 			p = p->_next;
 		}
 		p->_next = newNode;
-		Node_free(p);
 	}
 	
 	++(StrList->_size);
