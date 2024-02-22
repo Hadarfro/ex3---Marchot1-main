@@ -172,6 +172,7 @@ void StrList_removeAt(StrList* list, int index){//hadar
 			if (prev == NULL) {
 					// If the match is in the first node
 					list->_head = p->_next;
+					return;
 				}
 			else {
 				// If the match is in a subsequent node
@@ -246,12 +247,12 @@ void StrList_reverse(StrList* list){
 }
 
 void StrList_sort(StrList* list){
-	
-	qsort(list, list->_size, sizeof(Node), compare);
+	size_t size = sizeof(StrList);
+	qsort(list, size/sizeof(Node), sizeof(Node), compare);
 }
 
 int compare(const void *a, const void *b){
-	return strcmp(*(const char **)a, *(const char **)b); //If the first string need to be the former: <0. else: >0.
+	return strcasecmp(*(const char **)a, *(const char **)b); //If the first string need to be the former: <0. else: >0.
 }
 
 int StrList_isSorted(StrList* StrList){
