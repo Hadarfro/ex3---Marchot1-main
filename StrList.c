@@ -56,6 +56,7 @@ size_t StrList_size(const StrList* StrList){
 }
 
 void StrList_insertLast(StrList* StrList, const char* data){
+	StrList_print(StrList);
 	char* str = (char*)data;
 	Node* newNode = Node_alloc(str,NULL);
 	if(StrList->_head == NULL){
@@ -68,8 +69,8 @@ void StrList_insertLast(StrList* StrList, const char* data){
 		}
 		p->_next = newNode;
 	}
-	
 	++(StrList->_size);
+	StrList_print(StrList);
 }
 
 
