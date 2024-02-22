@@ -17,11 +17,14 @@ int main(){
         {
         case 1:
             scanf("%d", &input);
-            for(int i = 0;i < input;i++){
+            //Node* p = StrList->_head;
+            for(int i = 1;i <= input;i++){
                 if(scanf("%s",word)>=0){
                     StrList_insertLast(StrList, word);
+                    printf("the new node data  is %s:\n", StrList->_head->_data);
                 }
             }
+            printf("this is the head of the list %s:\n", StrList->_head->_data);
             break;
 
         case 2:

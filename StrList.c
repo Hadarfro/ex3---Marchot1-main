@@ -60,13 +60,16 @@ void StrList_insertLast(StrList* StrList, const char* data){
 	Node* newNode = Node_alloc(str,NULL);
 	if(StrList->_head == NULL){
 		StrList->_head = newNode;
-		return;
 	}
-	Node* p = StrList->_head;
-	while(p->_next != NULL){
-		p = p->_next;
+	else{
+		Node* p = StrList->_head;
+		while(p->_next != NULL){
+			p = p->_next;
+		}
+		p->_next = newNode;
+		Node_free(p);
 	}
-	p->_next = newNode;
+	
 	++(StrList->_size);
 }
 
@@ -90,7 +93,6 @@ char* StrList_firstData(const StrList* list){
 
 void StrList_print(const StrList* StrList){
     Node* p = StrList->_head;
-	printf("the first data is %s\n",p->_data);
 	while(p!=NULL) {
 		printf(" %s",p->_data);
 		p = p->_next;
