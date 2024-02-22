@@ -51,13 +51,14 @@ void StrList_free(StrList* StrList){
 }
 
 size_t StrList_size(const StrList* StrList){
+	int size = (int)StrList->_size;
+	printf("%d\n",size);
     return StrList->_size;
 
 }
 
 void StrList_insertLast(StrList* StrList, const char* data){
-	StrList_print(StrList);
-	char* str = (char*)data;
+	char* str = strdup(data);
 	Node* newNode = Node_alloc(str,NULL);
 	if(StrList->_head == NULL){
 		StrList->_head = newNode;
@@ -70,12 +71,11 @@ void StrList_insertLast(StrList* StrList, const char* data){
 		p->_next = newNode;
 	}
 	++(StrList->_size);
-	StrList_print(StrList);
 }
 
 
 void StrList_insertAt(StrList* StrList, const char* data,int index){
-	char* str = (char*)data;
+	char* str = strdup(data);
 	Node* newNode = Node_alloc(str,NULL);
 	Node* p = StrList->_head->_next;
 	while(p->_next!=NULL){
@@ -93,7 +93,7 @@ char* StrList_firstData(const StrList* list){
 
 void StrList_print(const StrList* StrList){
     Node* p = StrList->_head;
-	while(p!=NULL) {
+	while(p) {
 		printf(" %s",p->_data);
 		p = p->_next;
 	}
@@ -106,20 +106,21 @@ void StrList_printAt(const StrList* Strlist,int index){// hadar
 	{
 		p = p->_next;
 	}
-	printf("(%s)->",p->_data);
+	printf("%s\n",p->_data);
 }
 
 int StrList_printLen(const StrList* Strlist){//hadar
 	Node* p = Strlist->_head;
-	char *str = Strlist->_head->_data;
+	char* str = Strlist->_head->_data;
 	int count = 0;
-	while (p!=NULL)
+	while (p->_next!=NULL)
 		{
 			count += strlen(str);
 			p = p->_next;
 			str = p->_data;
 		}
-		printf("%d",count);
+		count += strlen(str);
+		printf("%d\n",count);
 	return count;
 }
 
@@ -258,10 +259,12 @@ int StrList_isSorted(StrList* StrList){
 	Node* prev = StrList->_head;
 	for(int i=0; i<StrList->_size-1; i++){
 		if((strcasecmp(prev->_data,p->_data))>0){
+			printf("false\n");
 			return 0; //false
 		}
 		prev = p;
 		p = p->_next;
 	}
+	printf("true\n");
 	return 1; //true
 }

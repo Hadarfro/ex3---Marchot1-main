@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include "StrList.h"
 #include "StrList.c"
-#include <string.h>
-#include <stdlib.h>
 
 int main(){
     StrList* list = StrList_alloc(); //Creating a new list.
     int input;
     int index;
     char word[50];
+    
 
     do{
         scanf("%d", &input);
@@ -16,15 +15,10 @@ int main(){
         {
         case 1:
             scanf("%d", &input);
-            //Node* p = StrList->_head;
             for(int i = 0;i < input;i++){
-                printf("the old list is:\n");
-                StrList_print(list);
                 char newWord[50];
                 scanf("%s",newWord);
                 StrList_insertLast(list, newWord);
-                printf("the new list is:\n");
-                StrList_print(list);
             }
             break;
 
