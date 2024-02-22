@@ -247,12 +247,12 @@ void StrList_reverse(StrList* list){
 }
 
 void StrList_sort(StrList* list){
-	size_t size = sizeof(StrList);
-	qsort(list, size/sizeof(Node), sizeof(Node), compare);
+	size_t size = sizeof(StrList) / sizeof(Node);
+	qsort(list, size, sizeof(Node), compare);
 }
 
 int compare(const void *a, const void *b){
-	return strcasecmp(*(const char **)a, *(const char **)b); //If the first string need to be the former: <0. else: >0.
+	return strcmp(*(const char **)a, *(const char **)b); //If the first string need to be the former: <0. else: >0.
 }
 
 int StrList_isSorted(StrList* StrList){
