@@ -78,7 +78,7 @@ void StrList_insertAt(StrList* StrList, const char* data,int index){
 	char* str = strdup(data);
 	Node* newNode = Node_alloc(str,NULL);
 	Node* p = StrList->_head->_next;
-	while(p->_next!=NULL){
+	for(int i = 0; i < index; i++){
 		p = p->_next;
 	}
 	newNode->_next = p->_next->_next;
@@ -102,7 +102,7 @@ void StrList_print(const StrList* StrList){
 
 void StrList_printAt(const StrList* Strlist,int index){// hadar
 	Node* p = Strlist->_head;
-	for (int i = 0; i <= index; i++)
+	for (int i = 0; i < index; i++)
 	{
 		p = p->_next;
 	}
@@ -128,14 +128,14 @@ int StrList_count(StrList* StrList, const char* data){//hadar
 	int count = 0;
 	Node* p = StrList->_head;
 	char *str = StrList->_head->_data;
-	while (p!=NULL)
-		{
+	while (p!=NULL){
 		if(strcmp(str,data) == 0){
 			count++;
 		}
-		p = p->_next;
 		str = p->_data;
+		p = p->_next;
 		}
+	printf("%d\n",count);
 	return count;
 }
 
@@ -143,8 +143,7 @@ void StrList_remove(StrList* list, const char* data){//hadar
 	char *str = list->_head->_data;
 	Node* p = list->_head;
 	Node* prev = NULL;
-	while (p!=NULL)
-		{
+	while (p!=NULL){
 		if(strcmp(str,data) == 0){
 			if (prev == NULL) {
 					// If the match is in the first node
@@ -154,11 +153,11 @@ void StrList_remove(StrList* list, const char* data){//hadar
 				// If the match is in a subsequent node
 					prev->_next = p->_next;
 				}
-
 				// Free the memory allocated for the string
-				free(p->_data);
+				//free(p->_data);
 				free(p);
-		}
+				return;
+			}
 		prev = p;
 		p = p->_next;
 		str = p->_data;
