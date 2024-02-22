@@ -77,9 +77,12 @@ int main(){
 
 
         case 11:
-            StrList_free(list);    
+            int i = list->_size-1;
+            while(i>=0){
+                StrList_removeAt(list,i);
+                i--;
+            }   
             break;
-
 
         case 12:
             StrList_sort(list);   
