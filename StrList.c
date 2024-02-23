@@ -250,15 +250,36 @@ void StrList_reverse(StrList* list){
 
 int Compare_list(const void *a, const void *b){
 	printf("comparing\n");
-	return strcmp(*(const char **)a, *(const char **)b); //If the first string need to be the former: <0. else: >0.
+	return strcasecmp(*(const char **)a, *(const char **)b); //If the first string need to be the former: <0. else: >0.
 }
 
 void StrList_sort(StrList* list){
-	size_t size = list->_size;
-	size_t sizeElement = (sizeof(Node*))*(sizeof(char*));
-	printf("sort started\n");
-	qsort(list->_head, size, sizeElement , Compare_list);
-	printf("sort finished\n");
+	// size_t size = list->_size;
+	// size_t sizeElement = (sizeof(Node*))*(sizeof(char*));
+	// printf("sort started\n");
+	// qsort(list->_head, size, sizeElement , Compare_list);
+	// printf("sort finished\n");
+	if(list->_head==NULL){
+		printf("list is null\n");
+		return;
+	}
+	Node* p = list->_head->_next;
+	Node* current = list->_head;
+	Node* prev = NULL;
+	printf("list isn't empty\n");
+	while(p->_next!=NULL){
+		if (strcmp(current->_data,p->_data) > 0){
+			//Node* tmp = prev;
+			current->_next = p->_next;
+			prev->_next = p;
+			p->_next = current;
+			current = p;
+			p = current;
+		}
+		prev = current;
+		current = p;
+		p = p->_next;
+	}
 }
 
 int StrList_isSorted(StrList* StrList){
