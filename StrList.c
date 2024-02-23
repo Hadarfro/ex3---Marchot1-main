@@ -94,7 +94,7 @@ char* StrList_firstData(const StrList* list){
 void StrList_print(const StrList* StrList){
     Node* p = StrList->_head;
 	while(p) {
-		printf(" %s",p->_data);
+		printf("%s ",p->_data);
 		p = p->_next;
 	}
 	printf("\n");
@@ -153,8 +153,6 @@ void StrList_remove(StrList* list, const char* data){//hadar
 				// If the match is in a subsequent node
 					prev->_next = p->_next;
 				}
-				// Free the memory allocated for the string
-				//free(p->_data);
 				free(p);
 				return;
 			}
@@ -166,27 +164,42 @@ void StrList_remove(StrList* list, const char* data){//hadar
 }
 
 void StrList_removeAt(StrList* list, int index){//hadar
+	int i = index;
+	if(list->_head == NULL){
+		return;
+	}
+	if (i==0 && list->_head->_next==NULL){
+		free(list->_head);
+		return;
+	}
+	
 	Node* p = list->_head;
 	Node* prev = NULL;
-	for (int i = 0; i<=index; i++){
-		if(i==index){
-			if (prev == NULL) {
-					// If the match is in the first node
-					list->_head = p->_next;
-					return;
-				}
-			else {
-				// If the match is in a subsequent node
-				prev->_next = p->_next;
-				}
-
-				// Free the memory allocated for the string
-				free(p->_data);
-				free(p);
-		}
+	while (i>0&&p!=NULL){
 		prev = p;
 		p = p->_next;
+		i--;
 	}
+	if (p->_next == NULL) {
+		// If the match is in the first node
+		prev->_next = NULL;
+	}
+	else if(p == NULL){
+		return;
+	}
+	else if(prev == NULL){
+		if(p->_next == NULL){
+			free(p);
+			return;
+		}
+		list->_head = p->_next;
+	}
+	else {
+		// If the match is in a subsequent node
+		prev->_next = p->_next;
+	}
+		free(p);
+		
 	--(list->_size);
 }
 
@@ -248,45 +261,32 @@ void StrList_reverse(StrList* list){
 		list->_head = prev;
 }
 
-int Compare_list(const void *a, const void *b){
-	printf("comparing\n");
-	return strcasecmp(*(const char **)a, *(const char **)b); //If the first string need to be the former: <0. else: >0.
-}
-
 void StrList_sort(StrList* list){
-	// size_t size = list->_size;
-	// size_t sizeElement = (sizeof(Node*))*(sizeof(char*));
-	// printf("sort started\n");
-	// qsort(list->_head, size, sizeElement , Compare_list);
-	// printf("sort finished\n");
 	if(list->_head==NULL){
-		printf("list is null\n");
 		return;
 	}
-	Node* p = list->_head->_next;
-	Node* current = list->_head;
-	Node* prev = NULL;
-	printf("list isn't empty\n");
-	while(p->_next!=NULL){
-		if (strcmp(current->_data,p->_data) > 0){
-			//Node* tmp = prev;
-			current->_next = p->_next;
-			prev->_next = p;
-			p->_next = current;
-			current = p;
-			p = current;
+	Node* p = list->_head;
+	Node* ptmp = list->_head;
+	char* tmp = "";
+		while(ptmp!=NULL){
+			p = ptmp;
+			while(p!=NULL){
+				if (strcmp(ptmp->_data,p->_data) > 0){
+					tmp = ptmp->_data;
+					ptmp->_data = p->_data;
+					p->_data = tmp;
+				}
+				p = p->_next;
+			}
+			ptmp = ptmp->_next;
 		}
-		prev = current;
-		current = p;
-		p = p->_next;
-	}
 }
 
 int StrList_isSorted(StrList* StrList){
 	Node* p = StrList->_head->_next;
 	Node* prev = StrList->_head;
-	for(int i=0; i<StrList->_size-1; i++){
-		if((strcasecmp(prev->_data,p->_data))>0){
+	while(p!=NULL){
+		if((strcmp(prev->_data,p->_data))>0){
 			printf("false\n");
 			return 0; //false
 		}
