@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int compare(const void *a, const void *b);
+int Compare_list(const void *a, const void *b);
 
 // Node & List Data Structures
 typedef struct _node {
@@ -162,6 +162,7 @@ void StrList_remove(StrList* list, const char* data){//hadar
 		p = p->_next;
 		str = p->_data;
 	}
+	--(list->_size);
 }
 
 void StrList_removeAt(StrList* list, int index){//hadar
@@ -186,6 +187,7 @@ void StrList_removeAt(StrList* list, int index){//hadar
 		prev = p;
 		p = p->_next;
 	}
+	--(list->_size);
 }
 
 int StrList_isEqual(const StrList* StrList1, const StrList* StrList2){
@@ -246,13 +248,17 @@ void StrList_reverse(StrList* list){
 		list->_head = prev;
 }
 
-void StrList_sort(StrList* list){
-	size_t size = sizeof(StrList) / sizeof(Node);
-	qsort(list, size, sizeof(Node), compare);
+int Compare_list(const void *a, const void *b){
+	printf("comparing\n");
+	return strcmp(*(const char **)a, *(const char **)b); //If the first string need to be the former: <0. else: >0.
 }
 
-int compare(const void *a, const void *b){
-	return strcmp(*(const char **)a, *(const char **)b); //If the first string need to be the former: <0. else: >0.
+void StrList_sort(StrList* list){
+	size_t size = list->_size;
+	size_t sizeElement = (sizeof(Node*))*(sizeof(char*));
+	printf("sort started\n");
+	qsort(list->_head, size, sizeElement , Compare_list);
+	printf("sort finished\n");
 }
 
 int StrList_isSorted(StrList* StrList){
