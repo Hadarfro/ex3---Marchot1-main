@@ -78,7 +78,7 @@ int main(){
 
         case 11:
             int i = list->_size-1;
-            while(i>0){
+            while(i>=0){
                 StrList_removeAt(list,i);
                 i--;
             }   

@@ -93,16 +93,19 @@ char* StrList_firstData(const StrList* list){
 
 void StrList_print(const StrList* StrList){
     Node* p = StrList->_head;
-	while(p) {
+	while(p->_next!=NULL) {
 		printf("%s ",p->_data);
 		p = p->_next;
+	}
+	if(p!=NULL){
+		printf("%s",p->_data);
 	}
 	printf("\n");
 }
 
 void StrList_printAt(const StrList* Strlist,int index){// hadar
 	Node* p = Strlist->_head;
-	for (int i = 0; i < index; i++)
+	for (int i = 0; i < index&&p!=NULL; i++)
 	{
 		p = p->_next;
 	}
@@ -154,52 +157,42 @@ void StrList_remove(StrList* list, const char* data){//hadar
 					prev->_next = p->_next;
 				}
 				free(p);
+				--(list->_size);
 				return;
 			}
 		prev = p;
 		p = p->_next;
 		str = p->_data;
 	}
-	--(list->_size);
 }
 
 void StrList_removeAt(StrList* list, int index){//hadar
-	int i = index;
-	if(list->_head == NULL){
+	if(list->_head == NULL){//if the list is empty
 		return;
 	}
-	if (i==0 && list->_head->_next==NULL){
-		free(list->_head);
-		return;
-	}
-	
 	Node* p = list->_head;
 	Node* prev = NULL;
-	while (i>0&&p!=NULL){
+	for (int i = 0; i<index;i++){
 		prev = p;
 		p = p->_next;
-		i--;
 	}
-	if (p->_next == NULL) {
-		// If the match is in the first node
-		prev->_next = NULL;
-	}
-	else if(p == NULL){
-		return;
-	}
-	else if(prev == NULL){
-		if(p->_next == NULL){
+	if(prev == NULL){//the head is removed
+		if(p->_next == NULL){//if we remove the last node of the list
+			list->_head = NULL;
 			free(p);
+			--(list->_size);
 			return;
 		}
 		list->_head = p->_next;
+	}
+	else if(p->_next == NULL){
+		prev->_next = NULL;
 	}
 	else {
 		// If the match is in a subsequent node
 		prev->_next = p->_next;
 	}
-		free(p);
-		
+	free(p);
 	--(list->_size);
 }
 
