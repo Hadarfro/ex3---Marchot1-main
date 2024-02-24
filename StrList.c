@@ -77,12 +77,14 @@ void StrList_insertLast(StrList* StrList, const char* data){
 void StrList_insertAt(StrList* StrList, const char* data,int index){
 	char* str = strdup(data);
 	Node* newNode = Node_alloc(str,NULL);
-	Node* p = StrList->_head->_next;
-	for(int i = 0; i < index; i++){
+	Node* p = StrList->_head;
+	Node* prev = NULL;
+	for(int i = 0; i < index&&p!=NULL; i++){
+		prev = p;
 		p = p->_next;
 	}
-	newNode->_next = p->_next->_next;
-	p->_next = newNode;
+	newNode->_next = p;
+	prev->_next = newNode;
 	++(StrList->_size);
 }
 

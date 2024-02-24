@@ -25,13 +25,9 @@ int main(){
         case 2:
             scanf(" %d", &index);
             char words[50];
-            for(int i = 0;i < input;i++){
-                if(scanf("%s",words)>=0){
-                    StrList_insertAt(list,words,index);
-                }
-                index++;
+            if(scanf("%s",words)>=0){
+                StrList_insertAt(list,words,index);
             }
-            
             break;
 
         case 3:
